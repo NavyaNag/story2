@@ -12,20 +12,20 @@ app.get('/Storybook/page/:id', (req,res) =>{
 
 function getmypage(PageNumber){
   const fs = require('fs');
-  var  data = fs.readFileSync('storybook.json', (err) => {if (err) throw err;});
-  let data1 = JSON.parse(data);
-  var pageData = { "telugu_txt":data1.title,
-                  "english_txt":data1.title_en,
+  var  Story = fs.readFileSync('storybook.json', (err) => {if (err) throw err;});
+  let StoryBook = JSON.parse(Story);
+  var pageData = { "telugu_txt":StoryBook.title,
+                  "english_txt":StoryBook.title_en,
                   "next_page_url":PageNumber -1 +2,
-                  "image":data1.cover_image,
+                  "image":StoryBook.cover_image,
                 };
-  if(Number == 1){
+  if(PageNumber == 1){
     var page = fs.readFileSync('view/title.mustache','utf8',  (err) => {if (err) throw err;});
     var myPage = template.render( page.toString(), pageData); 
     return(myPage);
   }
   else if(PageNumber >= 2){
-    var pages = data1.pages;
+    var pages = StoryBook.pages;
     var currentPage = pages[PageNumber - 2];
     if(currentPage == null){
          var endData = { "endPage":"Visit vizag u wil have fun!!!!!",
